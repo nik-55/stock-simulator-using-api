@@ -1,11 +1,13 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Home from '../pages/home/Home'
+import AskAuth from '../pages/home/Home'
+import Dashboard from "../pages/dashboard/Dashboard"
 
 const BasicRoutes = () => {
     return (
         <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<AskAuth />} />
+            <Route path='/dashboard' element={<Dashboard />} />
         </Routes>
     )
 }
