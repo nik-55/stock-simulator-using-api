@@ -1,0 +1,31 @@
+.stock-anlys {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.stock-anlys .srch-btn {
+  background-color: #321570;
+  color: white;
+  border: none;
+}
+
+.stock-anlys .srch-inp {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.stock-anlys .buy-btn {
+  background-color: #321570;
+  color: white;
+}
+
+.stock-anlys .sell-btn {
+  background-color: #f9a785;
+  color: black;
+}
+
+.stock-anlys .stock-img {
+  max-width: 40px;
+  max-height: 40px;
+}
