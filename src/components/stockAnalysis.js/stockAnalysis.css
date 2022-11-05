@@ -15,14 +15,23 @@
   border-bottom-right-radius: 0;
 }
 
-.stock-anlys .buy-btn {
+.buy-btn {
   background-color: #321570;
   color: white;
 }
 
-.stock-anlys .sell-btn {
+.buy-btn:hover {
+  border: 1px solid black;
+}
+
+.sell-btn {
   background-color: #f9a785;
   color: black;
+}
+
+.sell-btn:hover {
+  border: 1px solid black;
+  color: #321570;
 }
 
 .stock-anlys .stock-img {

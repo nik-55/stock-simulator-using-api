@@ -21,6 +21,7 @@ const Navbar = () => {
                 <div className="offcanvas-body canvas-bg">
                     <div className="mt-3">
                         <ul className="list-group list-group-flush">
+                            <li className="list-group-item"><NavLink to={"/"}><i className="fa-brands fa-instagram me-2"></i>Home</NavLink></li>
                             <li className="list-group-item"><NavLink to={"/dashboard"}><i className="fa-brands fa-instagram me-2"></i>Dashboard</NavLink></li>
                             <li className="list-group-item"><NavLink to={"/chart"}><i className="fa-brands fa-instagram me-2"></i>Chart</NavLink></li>
                             <li className="list-group-item"><NavLink to={"/company"}><i className="fa-brands fa-instagram me-2"></i>Company</NavLink></li>
