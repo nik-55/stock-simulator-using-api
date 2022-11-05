@@ -36,3 +36,11 @@
 .list-group .active {
   color: #7a30d8;
 }
+
+.orgname {
+  color: white;
+}
+
+.orgname:hover {
+  color: wheat;
+}

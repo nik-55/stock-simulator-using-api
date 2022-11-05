@@ -1,10 +1,10 @@
 import React from 'react'
 
-const TransHist = () => {
+const Transactions = () => {
     return (
         <div>
             <h6 className='ms-5 mt-3'>TRANSACTION HISTORY</h6>
-            <table class="table table-striped table-borderless mx-auto mt-4" style={{ width: "90%" }}>
+            <table className="table table-striped table-borderless mx-auto mt-4" style={{ width: "90%" }}>
                 <thead>
                     <tr>
                         <th scope="col">Stock</th>
@@ -54,4 +54,4 @@ const TransHist = () => {
     )
 }
 
-export default TransHist
+export default Transactions

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "./home.css"
-import home_img from "../../assests/images/home_img.png"
+import home_img from "../../assests/images/home_img.svg"
 import Modal from '../../components/modals/Modal'
 import Signup from "../../components/signup/Signup"
 import Login from "../../components/login/Login"
