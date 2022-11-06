@@ -43,16 +43,16 @@ const StockAnalysis = ({ stock }) => {
     const bookmark = async () => {
         await basicAxios.post("/trading/bookmark/", {
             jwt_token: localStorage.getItem("jwt_token"),
-            stock_name: "tata steel",
-            stock_price: 200
+            stock_name: stock.stockname,
+            stock_price: parseFloat(stock.price)
         })
         setBookmarked(true)
     }
 
     return (
         <>
-            {buy_modal ? <Modal modal_body={<Buy />} modal_title={"Buy Stock"} /> :
-                <Modal modal_body={<Sell />} modal_title={"Sell Stock"} />}
+            {buy_modal ? <Modal modal_body={<Buy stock={stock} />} modal_title={"Buy Stock"} /> :
+                <Modal modal_body={<Sell stock={stock} />} modal_title={"Sell Stock"} />}
 
             <>
                 <div className='w-100 d-flex mt-2'>
