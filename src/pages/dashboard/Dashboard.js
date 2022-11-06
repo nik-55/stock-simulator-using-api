@@ -18,16 +18,20 @@ const Dashboard = () => {
             const res3 = await basicAxios.post("/trading/gettransaction/", {
                 jwt_token: localStorage.getItem("jwt_token")
             })
-            console.log(res3);
+            const res4 = await basicAxios.post("/trading/getstock/", {
+                jwt_token: localStorage.getItem("jwt_token")
+            })
+            console.log(res1.data.balance);
+            console.log(res3, res4);
             setBalance(res1.data.balance)
             setBookarr(res2.data)
         }
         func()
     }, [])
     return (
-        <div className='mx-auto m-3 dashbrd-container'>
-            <div className='box-1 w-100 h-50'>
-                <Bar className='mx-auto w-50 h-100' data={{
+        <div className='dashbrd-container bd'>
+            <div className='box-1 bd-n'>
+                <Bar className='mx-auto' data={{
                     labels: [
                         'Red',
                         'Blue',
@@ -40,34 +44,40 @@ const Dashboard = () => {
                     }]
                 }} options={{ maintainAspectRatio: false }} />
             </div>
-            <div className='h-50 box-2'>
-                <div className='w-50'>
-                    <div className='d-flex w-100 '>
-                        <div className='flex-grow-1 m-2 change d-flex flex-column justify-content-center align-items-center'>
+
+            <div className='box-2 bd'>
+
+                <div className='wid-50 hei-100 bd-n'>
+
+                    <div className='d-flex wid-100 hei-50'>
+
+                        <div className='wid-50 hei-100 change d-flex flex-column justify-content-center align-items-center'>
                             <b>Net Profit/Loss</b>
                             <span className='text-success'>{`+ INR 400k`}</span>
                         </div>
-                        <div className='flex-grow-1 d-flex flex-column justify-content-center align-items-center m-2 available-fund'>
+                        <div className='wid-50 hei-100 d-flex flex-column justify-content-center align-items-center available-fund'>
                             <b>Available Funds</b>
                             <span>{`INR ${balance}k`}</span>
                         </div>
                     </div>
-                    <div className='d-flex flex-column justify-content-center align-items-center w-100 h-50'>
+
+                    <div className='wid-100 hei-50 d-flex flex-column justify-content-center align-items-center'>
                         <b>Bookmark Stocks</b>
-                        <div className="bookmark-cont d-flex flex-column justify-content-center align-items-center">
+                        <div className="wid-100 d-flex flex-column justify-content-center align-items-center">
                             {bookarr.map((stk) => {
-                                return <div key={stk.stock_name} className='d-flex p-1'>
-                                    <span className='flex-grow-1 ms-1'>{stk.stock_name}</span>
-                                    <span className='me-1'>{`INR ${stk.stock_price}k`}</span>
+                                return <div key={stk.stock_name} className='bookmark-item d-flex'>
+                                    <span className=''>{stk.stock_name}</span>
+                                    <span className=''>{`INR ${stk.stock_price}k`}</span>
                                 </div>
                             })}
                         </div>
                     </div>
                 </div>
-                <div className='w-50 d-flex align-items-center flex-column'>
+
+                <div className='wid-50 hei-100 bd d-flex flex-column align-items-center'>
                     <b>Stocks Distribution</b>
-                    <div className='w-50'>
-                        <Pie className='w-100 h-75' data={{
+                    <div className='wid-100'>
+                        <Pie className='mx-auto' data={{
                             labels: [
                                 'Red',
                                 'Blue',

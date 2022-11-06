@@ -3,20 +3,35 @@
 }
 
 .dashbrd-container {
-  height: 96vh;
-  width: 95%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  height: 100vh;
+  width: 100%;
 }
 
-.dashbrd-container .box {
-  flex-grow: 1;
+.dashbrd-container .box-1 {
+  width: 100%;
+  height: 46vh;
 }
 
 .dashbrd-container .box-2 {
+  width: 100%;
+  height: 46vh;
   display: flex;
-  justify-content: center;
+}
+
+.wid-50 {
+  width: 50%;
+}
+
+.wid-100 {
+  width: 100%;
+}
+
+.hei-50 {
+  height: 50%;
+}
+
+.hei-100 {
+  height: 100%;
 }
 
 .bd-n {
@@ -31,12 +46,6 @@
   background-color: #ffe2d6;
 }
 
-.bookmark-cont {
-  width: 100%;
-}
-
-.dashbrd-container .bookmark-cont div {
+.dashbrd-container .bookmark-item {
   background-color: #ffe2d6;
-  margin: 1%;
-  width: 50%;
 }
