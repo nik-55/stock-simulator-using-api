@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react'
-import { authAxios } from '../api/customAxios'
+import { basicAxios } from '../api/customAxios'
 import { authReducer } from '../reducers/authReducer'
 import { authConstant } from "../constants/authConstant"
 import Loader from '../components/Loader'
@@ -11,8 +11,13 @@ const useAuth = () => {
 
 const initialState = {
     user: null,
-    auth: true,
-    loading: true
+    auth: false,
+    loading: true,
+    msignup: false,
+    mlogin: false,
+    mlogout: false,
+    mbuy: false,
+    msell: false
 }
 
 const AuthProvider = ({ children }) => {
@@ -21,13 +26,12 @@ const AuthProvider = ({ children }) => {
     const fetchUserDetails = async () => {
         try {
             if (localStorage.getItem("jwt_token")) {
-                const response = await authAxios.get("/profile")
-                if (response.data?.message !== "session time out") {
-                    const user = response.data.user
-                    dispatch({ type: authConstant.USER, payload: { user: user } })
-                    dispatch({ type: authConstant.AUTH, payload: { auth: true } })
-                }
-                else localStorage.setItem("jwt_token", "")
+                const response = await basicAxios.post("/trading/getbalance/", {
+                    jwt_token: localStorage.getItem("jwt_token")
+                })
+                const user = response.data.username
+                dispatch({ type: authConstant.USER, payload: { user: user } })
+                dispatch({ type: authConstant.AUTH, payload: { auth: true } })
             }
         }
         catch {

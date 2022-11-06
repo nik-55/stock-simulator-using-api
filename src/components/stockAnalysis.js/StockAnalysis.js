@@ -5,9 +5,49 @@ import Buy from "../Buy"
 import Sell from "../Sell"
 import Modal from "../modals/Modal"
 import { Line } from 'react-chartjs-2';
+import { basicAxios } from '../../api/customAxios'
+
+const graph_options = {
+    scales: {
+        y: {
+            ticks: {
+                callback: function (value, index, ticks) {
+                    return '$' + value;
+                }
+            },
+            grid: {
+                borderColor: "white",
+                color: "rgb(255, 255, 255)",
+                lineWidth: 0.1
+            }
+        },
+        x: {
+            grid: {
+                borderColor: "white",
+                color: "rgb(255, 255, 255)",
+                lineWidth: 0.1
+            }
+        }
+    },
+    plugins: {
+        legend: {
+            position: "bottom"
+        }
+    }
+}
 
 const StockAnalysis = ({ stock }) => {
     const [buy_modal, setBuy_modal] = useState(true)
+    const [bookmarked, setBookmarked] = useState(false)
+
+    const bookmark = async () => {
+        await basicAxios.post("/trading/bookmark/", {
+            jwt_token: localStorage.getItem("jwt_token"),
+            stock_name: "tata steel",
+            stock_price: 200
+        })
+        setBookmarked(true)
+    }
 
     return (
         <>
@@ -30,18 +70,22 @@ const StockAnalysis = ({ stock }) => {
                         {stock.change >= 0 ? <span className='ms-2 text-success'>{`+ INR ${stock.change}K`}</span> :
                             <span className='ms-2 text-danger'>{`- INR ${-stock.change}K`}</span>}
                     </div>
-                    <button className='btn my-auto h-50 btn-outline-dark m-2'>Bookmark<i className="ms-1 fa-regular fa-bookmark"></i></button>
+                    {bookmarked ? <button onClick={bookmark} className='btn my-auto h-50 btn-dark text-light m-2'>Bookmarked<i className="ms-1 fa-regular fa-bookmark"></i></button> : <button onClick={bookmark} className='btn my-auto h-50 btn-outline-dark m-2'>Bookmark<i className="ms-1 fa-regular fa-bookmark"></i></button>}
                 </div>
-                <div className='w-75 m-3'>
+                <div className='m-3 stock-graph p-5'>
                     <Line data={{
                         labels: stock.labels,
                         datasets: [{
                             label: 'Opening Prices',
                             data: stock.prices,
-                            backgroundColor: "#321570",
-                            borderColor: "#321570"
+                            backgroundColor: "#F9A785",
+                            borderColor: "#F9A785",
+                            fill: {
+                                target: 'origin',
+                                above: 'rgb(249, 167, 133, 0.2)'
+                            }
                         }]
-                    }} />
+                    }} options={graph_options} />
                 </div></>
         </>
     )

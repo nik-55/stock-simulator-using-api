@@ -22,3 +22,21 @@
 .bd-n {
   border: 1px solid black;
 }
+
+.dashbrd-container .change {
+  background-color: #eadff8;
+}
+
+.dashbrd-container .available-fund {
+  background-color: #ffe2d6;
+}
+
+.bookmark-cont {
+  width: 100%;
+}
+
+.dashbrd-container .bookmark-cont div {
+  background-color: #ffe2d6;
+  margin: 1%;
+  width: 50%;
+}

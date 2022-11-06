@@ -46,3 +46,7 @@
   border: 1px solid white;
   border-radius: 100%;
 }
+
+.logout:hover {
+  cursor: pointer;
+}

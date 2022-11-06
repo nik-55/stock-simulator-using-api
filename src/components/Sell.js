@@ -1,8 +1,16 @@
 import React from 'react'
+import { basicAxios } from '../api/customAxios'
 
 const Sell = () => {
-    const sold = (e) => {
+    const sold = async (e) => {
         e.preventDefault()
+        const res = await basicAxios.post("/trading/sell/", {
+            jwt_token: localStorage.getItem("jwt_token"),
+            stock_price: 200,
+            stock_name: "tata steel",
+            stock_quantity: 100
+        })
+        console.log(res);
     }
     return (
         <form onSubmit={sold} noValidate>

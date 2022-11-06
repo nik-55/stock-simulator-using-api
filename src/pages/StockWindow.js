@@ -3,7 +3,6 @@ import StockAnalysis from '../components/stockAnalysis.js/StockAnalysis'
 import stock_window_img from "../assests/images/stock_window_img.svg"
 import axios from 'axios'
 import Loader from "../components/Loader"
-import { MONTHS } from "../constants/time"
 
 const profile_options = {
     method: 'GET',

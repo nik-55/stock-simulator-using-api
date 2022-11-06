@@ -19,7 +19,8 @@ const Login = () => {
                 username: usernameRef.current.value,
                 password: passwordRef.current.value,
             })
-            console.log(res);
+            localStorage.setItem('jwt_token', res.data.jwt_token)
+            window.location.reload()
         }
         catch (err) {
             setError(err?.message || "Signup failed")

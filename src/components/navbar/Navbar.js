@@ -5,9 +5,11 @@ import "./navbar.css"
 import dashboard_icon from "../../assests/images/dashboard_icon.png"
 import stock_window_icon from "../../assests/images/stock_window_icon.png"
 import transactions_icon from "../../assests/images/transactions_icon.png"
+import Logout from '../logout/Logout'
+import logout_icon from "../../assests/images/logout_icon.png"
 
 const Navbar = () => {
-    const { auth } = useAuth()
+    const { auth, user } = useAuth()
     return (
         <>
             <nav className="navbar navbar-dark cnavbar">
@@ -18,7 +20,8 @@ const Navbar = () => {
                         </button>
                         <h4 className='my-auto ms-2'><Link className='orgname' to={"/"}>Paper Trading</Link></h4>
                     </div>
-                    <span className='me-3'>Name<i className="ms-3 fa-solid fa-user"></i></span>
+                    <span className='me-3'>{user}
+                        <i className="ms-3 fa-solid fa-user logout"></i></span>
                 </div> :
                     <h4 className='my-auto ms-4'><Link className='orgname' to={"/"}>Paper Trading</Link></h4>
                 }
@@ -43,9 +46,11 @@ const Navbar = () => {
                                 <img className='me-2' src={transactions_icon} alt="transactions_icon" />
                                 <NavLink className='w-50' to={"/transactions"}>Transactions</NavLink></li>
                             <li className="list-group-item d-flex align-items-center">
-                                <i className="text-light about-us-icon p-1 fa-solid fa-info me-2"></i>
+                                <i className="text-light border rounded-circle p-1 fa-solid fa-info me-2"></i>
                                 <NavLink className="w-50" to={"/aboutus"}>About us</NavLink>
                             </li>
+                            <li className="list-group-item d-flex align-items-center">
+                                <img className='me-2' src={logout_icon} alt="Logout" /> <Logout /></li>
                         </ul>
                     </div>
                 </div>
