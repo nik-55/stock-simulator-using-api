@@ -6,7 +6,6 @@ import dashboard_icon from "../../assests/images/dashboard_icon.png"
 import stock_window_icon from "../../assests/images/stock_window_icon.png"
 import transactions_icon from "../../assests/images/transactions_icon.png"
 import Logout from '../logout/Logout'
-import logout_icon from "../../assests/images/logout_icon.png"
 
 const Navbar = () => {
     const { auth, user } = useAuth()
@@ -49,8 +48,7 @@ const Navbar = () => {
                                 <i className="text-light border rounded-circle p-1 fa-solid fa-info me-2"></i>
                                 <NavLink className="w-50" to={"/aboutus"}>About us</NavLink>
                             </li>
-                            <li className="list-group-item d-flex align-items-center">
-                                <img className='me-2' src={logout_icon} alt="Logout" /> <Logout /></li>
+                            <li className="list-group-item d-flex align-items-center"><Logout /></li>
                         </ul>
                     </div>
                 </div>
