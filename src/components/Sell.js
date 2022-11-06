@@ -12,9 +12,9 @@ const Sell = ({ stock }) => {
         try {
             const res = await basicAxios.post("/trading/sell/", {
                 jwt_token: localStorage.getItem("jwt_token"),
-                stock_price: parseFloat(stock.price),
                 stock_name: stock.stockname,
-                stock_quantity: parseInt(quantity)
+                stock_quantity: parseInt(quantity),
+                stock_price: 100//parseFloat(stock.price),
             })
             console.log(res);
             setShow(true)

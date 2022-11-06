@@ -1,6 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { basicAxios } from '../api/customAxios'
 
 const Transactions = () => {
+    const [trans, setTrans] = useState([])
+    useEffect(() => {
+        const func = async () => {
+            const res = await basicAxios.post("/trading/gettransaction/", {
+                jwt_token: localStorage.getItem("jwt_token")
+            })
+            setTrans(res.data)
+            console.log(res.data[0].date_time);
+        }
+        func()
+    }, [])
     return (
         <div>
             <h6 className='ms-5 mt-3'>TRANSACTION HISTORY</h6>
@@ -16,38 +28,16 @@ const Transactions = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>mdo</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>fat</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>twitter</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>twitter</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>mdo</td>
-                    </tr>
+                    {trans.map((stk) => {
+                        return <tr key={stk.date_time}>
+                            <td>{stk.stock_name}</td>
+                            <td>{stk.buy_sell}</td>
+                            <td>{stk.stock_quantity}</td>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td className='text-success'>Success</td>
+                        </tr>
+                    })}
                 </tbody>
             </table>
         </div>

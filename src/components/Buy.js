@@ -12,9 +12,9 @@ const Buy = ({ stock }) => {
         try {
             const res = await basicAxios.post("/trading/buy/", {
                 jwt_token: localStorage.getItem("jwt_token"),
-                stock_price: parseFloat(stock.price),
                 stock_name: stock.stockname,
-                stock_quantity: parseInt(quantity)
+                stock_quantity: parseInt(quantity),
+                stock_price: 100//parseFloat(stock.price),
             })
             setShow(true)
             console.log(res);
@@ -25,7 +25,7 @@ const Buy = ({ stock }) => {
     }
     return (
         <form onSubmit={bought} noValidate>
-            {show && <Success success_text={"Sold"} />}
+            {show && <Success success_text={"Bought"} />}
             <div className="form-floating mb-3">
                 <input type="text" value={stock.price} className="form-control" id="buy-price" placeholder="Price" readOnly={true} />
                 <label forhtml="buy-price">Price</label>

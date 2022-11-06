@@ -44,7 +44,7 @@ const StockAnalysis = ({ stock }) => {
         await basicAxios.post("/trading/bookmark/", {
             jwt_token: localStorage.getItem("jwt_token"),
             stock_name: stock.stockname,
-            stock_price: parseFloat(stock.price)
+            stock_price: 100//parseFloat(stock.price)
         })
         setBookmarked(true)
     }

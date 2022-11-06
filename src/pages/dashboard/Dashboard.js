@@ -1,8 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Bar, Pie } from 'react-chartjs-2'
 import "./dashboard.css"
+import { basicAxios } from "../../api/customAxios"
 
 const Dashboard = () => {
+    const [balance, setBalance] = useState("")
+    const [bookarr, setBookarr] = useState([])
+    // const [change, setChange] = useState()
+    useEffect(() => {
+        const func = async () => {
+            const res1 = await basicAxios.post("/trading/getbalance/", {
+                jwt_token: localStorage.getItem("jwt_token")
+            })
+            const res2 = await basicAxios.post("/trading/getbookmark/", {
+                jwt_token: localStorage.getItem("jwt_token")
+            })
+            const res3 = await basicAxios.post("/trading/gettransaction/", {
+                jwt_token: localStorage.getItem("jwt_token")
+            })
+            console.log(res3);
+            setBalance(res1.data.balance)
+            setBookarr(res2.data)
+        }
+        func()
+    }, [])
     return (
         <div className='mx-auto m-3 dashbrd-container'>
             <div className='box-1 w-100 h-50'>
@@ -28,24 +49,18 @@ const Dashboard = () => {
                         </div>
                         <div className='flex-grow-1 d-flex flex-column justify-content-center align-items-center m-2 available-fund'>
                             <b>Available Funds</b>
-                            <span>{`INR 400k`}</span>
+                            <span>{`INR ${balance}k`}</span>
                         </div>
                     </div>
                     <div className='d-flex flex-column justify-content-center align-items-center w-100 h-50'>
                         <b>Bookmark Stocks</b>
                         <div className="bookmark-cont d-flex flex-column justify-content-center align-items-center">
-                            <div className='d-flex p-1'>
-                                <span className='flex-grow-1 ms-1'>Tata</span>
-                                <span className='me-1'>{`INR 400k`}</span>
-                            </div>
-                            <div className='d-flex p-1'>
-                                <span className='flex-grow-1 ms-1'>Tata</span>
-                                <span className='me-1'>{`INR 400k`}</span>
-                            </div>
-                            <div className='d-flex p-1'>
-                                <span className='flex-grow-1 ms-1'>Tata</span>
-                                <span className='me-1'>{`INR 400k`}</span>
-                            </div>
+                            {bookarr.map((stk) => {
+                                return <div key={stk.stock_name} className='d-flex p-1'>
+                                    <span className='flex-grow-1 ms-1'>{stk.stock_name}</span>
+                                    <span className='me-1'>{`INR ${stk.stock_price}k`}</span>
+                                </div>
+                            })}
                         </div>
                     </div>
                 </div>

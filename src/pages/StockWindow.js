@@ -9,7 +9,7 @@ const profile_options = {
     url: 'https://yh-finance.p.rapidapi.com/stock/v2/get-profile',
     params: { region: 'US' },
     headers: {
-        'X-RapidAPI-Key': '3fc5fc306bmshb1062c6ab86afd8p1af150jsn4dfe51138725',
+        'X-RapidAPI-Key': process.env.REACT_APP_X_RAPIDAPIKEY,
         'X-RapidAPI-Host': 'yh-finance.p.rapidapi.com'
     }
 };
