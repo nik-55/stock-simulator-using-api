@@ -9,7 +9,12 @@ const Login = () => {
 
     const signin = async (e) => {
         e.preventDefault()
+        const password = passwordRef.current.value
+        const username = usernameRef.current.value
+
         try {
+            if (username === "" || password === "")
+                throw new Error("Fields can not be left empty")
             const res = await basicAxios.post("/accounts/login/", {
                 username: usernameRef.current.value,
                 password: passwordRef.current.value,
@@ -22,11 +27,8 @@ const Login = () => {
     }
     return (
         <>
-            {error !== "" && <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            {error !== "" && <div className="alert alert-warning" role="alert">
+                {error}
             </div>}
             <form onSubmit={signin} noValidate>
                 <div className="form-floating mb-3">

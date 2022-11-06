@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import "./signup.css"
 import { basicAxios } from '../../api/customAxios'
 
-const Signup = () => {
+const Signup = ({ login_modal }) => {
     const usernameRef = useRef()
     const emailRef = useRef()
     const passwordRef = useRef()
@@ -13,16 +13,21 @@ const Signup = () => {
         e.preventDefault()
         const password = passwordRef.current.value
         const cpassword = cpasswordRef.current.value
+        const username = usernameRef.current.value
+        const email = emailRef.current.value
+
         try {
+            if (username === "" || email === "" || password === "" || cpassword === "")
+                throw new Error("Fields can not be left empty")
             if (password !== cpassword)
                 throw new Error("Password and Confirm Password should be same")
 
-            const res = await basicAxios.post("/accounts/register/", {
-                username: usernameRef.current.value,
+            await basicAxios.post("/accounts/register/", {
+                username,
                 password,
-                email: emailRef.current.value
+                email
             })
-            console.log(res);
+            login_modal(false)
         }
         catch (err) {
             setError(err?.message || "Signup failed")
@@ -30,11 +35,8 @@ const Signup = () => {
     }
     return (
         <>
-            {error !== "" && <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            {error !== "" && <div className="alert alert-warning" role="alert">
+                {error}
             </div>}
 
             <form onSubmit={register} noValidate>

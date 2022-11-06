@@ -10,7 +10,7 @@ const Home = () => {
 
     return (
         <>
-            {signup_modal ? <Modal modal_body={<Signup />} modal_title={"Register"} /> :
+            {signup_modal ? <Modal modal_body={<Signup login_modal={setSignup_modal} />} modal_title={"Register"} /> :
                 <Modal modal_body={<Login />} modal_title={"Login"} />}
             <div className='home-container'>
                 <div className='box box-1'>
