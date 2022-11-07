@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./stockAnalysis.css"
 import stock_img from "../../assests/images/stock_img.png"
 import Buy from "../Buy"
@@ -6,6 +6,8 @@ import Sell from "../Sell"
 import Modal from "../modals/Modal"
 import { Line } from 'react-chartjs-2';
 import { basicAxios } from '../../api/customAxios'
+import { profile_options } from '../../constants/rapid_const'
+import axios from 'axios'
 
 const graph_options = {
     scales: {
@@ -40,20 +42,33 @@ const graph_options = {
 const StockAnalysis = ({ stock }) => {
     const [buy_modal, setBuy_modal] = useState(true)
     const [bookmarked, setBookmarked] = useState(false)
+    const [change, setChange] = useState({ price: "0", change: "0" })
 
     const bookmark = async () => {
         await basicAxios.post("/trading/bookmark/", {
             jwt_token: localStorage.getItem("jwt_token"),
             stock_name: stock.stockname,
-            stock_price: parseFloat(stock.price)
+            stock_price: parseFloat(change.price)
         })
         setBookmarked(true)
     }
 
+    useEffect(() => {
+        const func = async () => {
+            const options1 = { ...profile_options, params: { ...profile_options.params, symbol: stock.stockname } }
+            const res1 = await axios.request(options1)
+            const price = res1.data.price.regularMarketOpen.raw
+            let del = parseFloat(price) - parseFloat(res1.data.price.regularMarketPreviousClose.raw)
+            del = Math.round(del * 100) / 100;
+            setChange({ price: price, change: del })
+        }
+        func()
+    }, [stock.stockname])
+
     return (
         <>
-            {buy_modal ? <Modal modal_body={<Buy stock={stock} />} modal_title={"Buy Stock"} /> :
-                <Modal modal_body={<Sell stock={stock} />} modal_title={"Sell Stock"} />}
+            {buy_modal ? <Modal modal_body={<Buy stock={{ ...stock, price: change.price }} />} modal_title={"Buy Stock"} /> :
+                <Modal modal_body={<Sell stock={{ ...stock, price: change.price }} />} modal_title={"Sell Stock"} />}
 
             <>
                 <div className='w-100 d-flex mt-1'>
@@ -67,9 +82,9 @@ const StockAnalysis = ({ stock }) => {
 
                 <div className='w-100 d-flex'>
                     <div className='flex-grow-1 my-auto d-flex flex-column'>
-                        <h4 className='ms-2'>{`INR ${stock.price}K`}</h4>
-                        {stock.change >= 0 ? <span className='ms-2 text-success'>{`+ INR ${stock.change}K`}</span> :
-                            <span className='ms-2 text-danger'>{`- INR ${-stock.change}K`}</span>}
+                        <h4 className='ms-2'>{`INR ${change.price}K`}</h4>
+                        {change.change >= 0 ? <span className='ms-2 text-success'>{`+ INR ${change.change}K`}</span> :
+                            <span className='ms-2 text-danger'>{`- INR ${-change.change}K`}</span>}
                     </div>
                     {bookmarked ? <button onClick={bookmark} className='btn my-auto h-50 btn-dark text-light m-2'>Bookmarked<i className="ms-1 fa-regular fa-bookmark"></i></button> : <button onClick={bookmark} className='btn my-auto h-50 btn-outline-dark m-2'>Bookmark<i className="ms-1 fa-regular fa-bookmark"></i></button>}
                 </div>
