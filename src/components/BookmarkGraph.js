@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import { history_options } from '../constants/rapid_const'
 import axios from 'axios'
 import Loader from "./Loader"
-import { Line } from 'react-chartjs-2'
 import StockAnalysis from './stockAnalysis.js/StockAnalysis'
 
 const BookmarkGraph = () => {
@@ -27,7 +26,7 @@ const BookmarkGraph = () => {
             setStock({ prices: prices, labels: labels, stockname: stockname, price: "100", change: "89" })
         }
         func()
-    }, [])
+    }, [stockname])
     return (
         <div style={{ height: "100vh", width: "95%" }} className="mx-auto stock-anlys">
             {stock.prices.length === 0 ? < Loader /> : <StockAnalysis stock={stock} />}

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { profile_options, history_options } from '../../constants/rapid_const'
 const obj = {
-    animationName: "anime-bg", animationDuration: "3s", animationIterationCount: "infinite",
+    animationName: "anime-bg", animationDuration: "2s", animationIterationCount: "infinite",
 }
 
 const opt = [{
@@ -15,7 +15,14 @@ const opt = [{
     borderColor: "#F9A785",
     fill: {
         target: 'origin',
-        above: 'rgb(249, 167, 133, 0.2)'
+        above: 'rgb(205,255,204,0.5)'
+    }
+}, {
+    backgroundColor: "#F9A785",
+    borderColor: "#F9A785",
+    fill: {
+        target: 'origin',
+        above: 'rgb(234, 223, 248,0.5)'
     }
 }, {
     backgroundColor: "#F9A785",
@@ -23,13 +30,6 @@ const opt = [{
     fill: {
         target: 'origin',
         above: 'rgb(249, 167, 133, 0.2)'
-    }
-}, {
-    backgroundColor: "#F9A785",
-    borderColor: "#F9A785",
-    fill: {
-        target: 'origin',
-        above: '#EADFF8'
     }
 }]
 
@@ -40,72 +40,77 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true)
     const [change, setChange] = useState(0)
     const [lineData, setLineData] = useState()
+    // const [show1, setShow1] = useState(false)
+    // const [show2, setShow2] = useState(false)
+    // const [show3, setShow3] = useState(false)
 
     useEffect(() => {
         const func = async () => {
-            const res1 = await basicAxios.post("/trading/getbalance/", {
-                jwt_token: localStorage.getItem("jwt_token")
-            })
-            const res2 = await basicAxios.post("/trading/getbookmark/", {
-                jwt_token: localStorage.getItem("jwt_token")
-            })
-            const res3 = await basicAxios.post("/trading/gettransaction/", {
-                jwt_token: localStorage.getItem("jwt_token")
-            })
-            const res4 = await basicAxios.post("/trading/getstock/", {
-                jwt_token: localStorage.getItem("jwt_token")
-            })
-            let prev_wealth = 0, current_wealth = 0;
-            for (let i = 0; i < res4.data.length; i++) {
-                prev_wealth += (parseFloat(res4.data[i].stock_price) * (parseInt(res4.data[i].stock_quantity)))
-                const options = { ...profile_options, params: { ...profile_options.params, symbol: res4.data[i].stock_name } }
-                const response = await axios.request(options)
-                current_wealth += (parseFloat(response.data.price.regularMarketOpen.raw) * (parseInt(res4.data[i].stock_quantity)))
-            }
-            let del = prev_wealth - current_wealth
-            del = Math.round(del * 100) / 100;
-            setChange(del)
-
-            setBalance(res1.data.balance)
-            const arr1 = res2.data.filter((ele, i) => {
-                if (i < 3) return true
-                return false
-            })
-            setBookarr(arr1)
-            const arr = res4.data.map((ele) => { return ele.stock_quantity })
-            const arr2 = res4.data.map((ele) => { return ele.stock_name })
-
-            const prices_arr = []
-            const labels_arr = []
-
-            for (let i = 0; i < arr1.length; i++) {
-                const options = { ...history_options, params: { ...history_options.params, symbol: arr1[i].stock_name } }
-                const res = await axios.request(options)
-                const prices = []
-                for (let i = 1; i <= res.data.prices.length; i += 20) {
-                    prices.push(res.data.prices[i - 1].open)
-                }
-                prices_arr.push(prices)
-
-                const labels = []
-                for (let i = 1; i <= res.data.prices.length; i += 20) {
-                    const myDate = new Date(res.data.prices[i - 1].date);
-                    const label = `${("0" + myDate.getHours()).slice(-2)}:${("0" + myDate.getMinutes()).slice(-2)} hrs`
-                    labels.push(label);
-                }
-                labels_arr.push(labels)
-            }
-            const data_arr = []
-            for (let i = 0; i < prices_arr.length; i++) {
-                data_arr.push({
-                    label: arr1[i].stock_name,
-                    data: prices_arr[i],
-                    ...opt[i]
+            try {
+                const res1 = await basicAxios.post("/trading/getbalance/", {
+                    jwt_token: localStorage.getItem("jwt_token")
                 })
-            }
+                const res2 = await basicAxios.post("/trading/getbookmark/", {
+                    jwt_token: localStorage.getItem("jwt_token")
+                })
+                const res4 = await basicAxios.post("/trading/getstock/", {
+                    jwt_token: localStorage.getItem("jwt_token")
+                })
+                let prev_wealth = 0, current_wealth = 0;
+                for (let i = 0; i < res4.data.length; i++) {
+                    prev_wealth += (parseFloat(res4.data[i].stock_price) * (parseInt(res4.data[i].stock_quantity)))
+                    const options = { ...profile_options, params: { ...profile_options.params, symbol: res4.data[i].stock_name } }
+                    const response = await axios.request(options)
+                    current_wealth += (parseFloat(response.data.price.regularMarketOpen.raw) * (parseInt(res4.data[i].stock_quantity)))
+                }
+                let del = prev_wealth - current_wealth
+                del = Math.round(del * 100) / 100;
+                setChange(del)
 
-            setLineData({ data: data_arr, labels: labels_arr[0] })
-            setPieData({ data: arr, labels: arr2 })
+                setBalance(res1.data.balance)
+                const arr1 = res2.data.filter((ele, i) => {
+                    if (i < 3) return true
+                    return false
+                })
+                setBookarr(arr1)
+                const arr = res4.data.map((ele) => { return ele.stock_quantity })
+                const arr2 = res4.data.map((ele) => { return ele.stock_name })
+
+                const prices_arr = []
+                const labels_arr = []
+
+                for (let i = 0; i < arr1.length; i++) {
+                    const options = { ...history_options, params: { ...history_options.params, symbol: arr1[i].stock_name } }
+                    const res = await axios.request(options)
+                    const prices = []
+                    for (let i = 1; i <= res.data.prices.length; i += 20) {
+                        prices.push(res.data.prices[i - 1].open)
+                    }
+                    prices_arr.push(prices)
+
+                    const labels = []
+                    for (let i = 1; i <= res.data.prices.length; i += 20) {
+                        const myDate = new Date(res.data.prices[i - 1].date);
+                        const label = `${("0" + myDate.getHours()).slice(-2)}:${("0" + myDate.getMinutes()).slice(-2)} hrs`
+                        labels.push(label);
+                    }
+                    labels_arr.push(labels)
+                }
+                const data_arr = []
+                for (let i = 0; i < prices_arr.length; i++) {
+                    data_arr.push({
+                        label: arr1[i].stock_name,
+                        data: prices_arr[i],
+                        ...opt[i]
+                    })
+                }
+
+                setLineData({ data: data_arr, labels: labels_arr[0] })
+                setPieData({ data: arr, labels: arr2 })
+            }
+            catch (err) {
+
+            }
             setLoading(false)
         }
         func()

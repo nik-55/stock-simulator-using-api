@@ -10,7 +10,7 @@ const Buy = ({ stock }) => {
     const bought = async (e) => {
         e.preventDefault()
         try {
-            const res = await basicAxios.post("/trading/buy/", {
+            await basicAxios.post("/trading/buy/", {
                 jwt_token: localStorage.getItem("jwt_token"),
                 stock_name: stock.stockname,
                 stock_quantity: parseInt(quantity),

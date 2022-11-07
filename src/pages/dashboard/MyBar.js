@@ -5,11 +5,18 @@ const MyBar = ({ lineData }) => {
 
     return (
         <>
-            < Line data={{
+            <Line data={{
                 labels: lineData.labels,
                 datasets: lineData.data
             }} options={{
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: "black"
+                        }
+                    }
+                }
             }} />
         </>
     )

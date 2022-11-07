@@ -30,8 +30,8 @@ const Navbar = () => {
                     <h5 className="offcanvas-title" id="offcanvasExampleLabel"><NavLink className={"orgname"} to={"/"}>Paper Trading</NavLink></h5>
                     <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div className="offcanvas-body canvas-bg">
-                    <div className="mt-3">
+                <div className="offcanvas-body canvas-bg d-flex flex-column">
+                    <div className="mt-3 flex-grow-1">
                         <ul className="list-group list-group-flush">
                             <li className="list-group-item d-flex align-items-center">
                                 <img className='me-2' src={dashboard_icon} alt="dashboard" />
@@ -46,11 +46,15 @@ const Navbar = () => {
                                 <NavLink className='w-50' to={"/transactions"}>Transactions</NavLink></li>
                             <li className="list-group-item d-flex align-items-center">
                                 <i className="text-light border rounded-circle p-1 fa-solid fa-info me-2"></i>
+                                <NavLink className="w-50" to={"/edusec"}>Educational</NavLink>
+                            </li>
+                            <li className="list-group-item d-flex align-items-center">
+                                <i className="text-light border rounded-circle p-1 fa-solid fa-info me-2"></i>
                                 <NavLink className="w-50" to={"/aboutus"}>About us</NavLink>
                             </li>
-                            <li className="list-group-item d-flex align-items-center"><Logout /></li>
                         </ul>
                     </div>
+                    <div><Logout /></div>
                 </div>
             </div>
         </>

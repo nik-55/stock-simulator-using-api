@@ -1,0 +1,16 @@
+.edu-cont {
+  height: 85vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.c-card {
+  width: 25%;
+}
+
+.c-card:hover {
+  transform: scale(0.9, 1.2);
+}

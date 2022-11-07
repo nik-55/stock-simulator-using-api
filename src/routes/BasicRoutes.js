@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute"
 import RedirectDash from './RedirectDash'
 import BookMark from '../pages/bookmark/BookMark'
 import BookmarkGraph from '../components/BookmarkGraph'
+import EduSec from '../pages/edu/EduSec'
 
 const BasicRoutes = () => {
 
@@ -20,6 +21,7 @@ const BasicRoutes = () => {
             <Route path='/transactions' element={<PrivateRoute><Transactions /></PrivateRoute>} />
             <Route path='/bookmark' element={<PrivateRoute><BookMark /></PrivateRoute>} />
             <Route path='/bookmark/:stockname' element={<PrivateRoute><BookmarkGraph /></PrivateRoute>} />
+            <Route path='/edusec' element={<EduSec />} />
             <Route path='/aboutus' element={<Aboutus />} />
         </Routes>
     )
