@@ -5,7 +5,7 @@ import MyPie from './MyPie'
 import MyBar from './MyBar'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { profile_options } from '../../constants/rapid_const'
+import { profile_options, history_options } from '../../constants/rapid_const'
 
 const Dashboard = () => {
     const [balance, setBalance] = useState("")
@@ -13,6 +13,8 @@ const Dashboard = () => {
     const [pieData, setPieData] = useState()
     const [loading, setLoading] = useState(true)
     const [change, setChange] = useState(0)
+    const [lineData, setLineData] = useState()
+
     useEffect(() => {
         const func = async () => {
             const res1 = await basicAxios.post("/trading/getbalance/", {
@@ -39,21 +41,41 @@ const Dashboard = () => {
             setChange(del)
 
             setBalance(res1.data.balance)
-            setBookarr(res2.data)
+            const arr1 = res2.data.filter((ele, i) => {
+                if (i < 3) return true
+                return false
+            })
+            setBookarr(arr1)
             const arr = res4.data.map((ele) => { return ele.stock_quantity })
             const arr2 = res4.data.map((ele) => { return ele.stock_name })
+
+            const options = { ...history_options, params: { ...history_options.params, symbol: arr1[0].stock_name } }
+            const res = await axios.request(options)
+            const prices = []
+            for (let i = 1; i <= res.data.prices.length; i += 20) {
+                prices.push(res.data.prices[i - 1].open)
+            }
+
+            const labels = []
+            for (let i = 1; i <= res.data.prices.length; i += 20) {
+                const myDate = new Date(res.data.prices[i - 1].date);
+                const label = `${("0" + myDate.getHours()).slice(-2)}:${("0" + myDate.getMinutes()).slice(-2)} hrs`
+                labels.push(label);
+            }
+
+            setLineData({ data: [...prices], labels: [...labels] })
             setPieData({ data: arr, labels: arr2 })
             setLoading(false)
         }
         func()
     }, [])
     return (
-        <div className='dashbrd-container bd'>
-            <div className='box-1 bd'>
-                <MyBar />
+        <div className='dashbrd-container'>
+            <div className='box-1 p-4'>
+                {!loading && <MyBar lineData={lineData} />}
             </div>
 
-            <div className='box-2'>
+            <div className='box-2 mt-3'>
 
                 <div className='wid-50 hei-100'>
 
@@ -70,14 +92,12 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    <Link to="/bookmark"><div className='bookmark-cont mx-auto d-flex flex-column align-items-center'>
-                        <b className='mt-3'>Bookmark Stocks</b>
-                        <div className="wid-100 mt-4 d-flex flex-column justify-content-center align-items-center">
-                            {bookarr.filter((ele, i) => {
-                                if (i < 3) return true
-                                return false
-                            }).map((stk) => {
-                                return <div key={stk.stock_name} className='p-2 m-2 bookmark-item d-flex'>
+                    <Link to="/bookmark"><div className='bookmark-cont mx-auto d-flex flex-column align-items-center' style={loading ? {
+                    } : {}}>
+                        <b className='mt-2'>Bookmark Stocks</b>
+                        <div className="wid-100 mt-2 d-flex flex-column justify-content-center align-items-center">
+                            {bookarr.map((stk) => {
+                                return <div key={stk.stock_name} className='p-2 m-1 bookmark-item d-flex'>
                                     <span className='flex-grow-1'>{stk.stock_name}</span>
                                     <span className=''>{`INR ${stk.stock_price}k`}</span>
                                 </div>
@@ -86,14 +106,14 @@ const Dashboard = () => {
                     </div></Link>
                 </div>
 
-                <div className='wid-50 hei-100 stock-dist-cont mt-2 d-flex flex-column align-items-center'>
+                <div className='hei-100 stock-dist-cont mt-2 d-flex flex-column align-items-center'>
                     <b className='mt-3 mb-3'>Stocks Distribution</b>
                     <div className='wid-100 pie-div d-flex'>
                         {!loading && <MyPie pieData={pieData} />}
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

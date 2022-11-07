@@ -1,21 +1,25 @@
 import React from 'react'
-import { Bar } from 'react-chartjs-2'
+import { Line } from 'react-chartjs-2'
 
-const MyBar = () => {
+const MyBar = ({ lineData }) => {
+
     return (
         <>
-            <Bar data={{
-                labels: [
-                    'Red',
-                    'Blue',
-                    'Yellow'
-                ],
+            <Line data={{
+                labels: lineData.labels,
                 datasets: [{
-                    label: 'My First Dataset',
-                    data: [300, 50, 100],
-                    backgroundColor: "#F5D699"
+                    label: 'Opening Prices',
+                    data: lineData.data,
+                    backgroundColor: "#F9A785",
+                    borderColor: "#F9A785",
+                    fill: {
+                        target: 'origin',
+                        above: 'rgb(249, 167, 133, 0.2)'
+                    }
                 }]
-            }} options={{ maintainAspectRatio: false }} />
+            }} options={{
+                maintainAspectRatio: false
+            }} />
         </>
     )
 }
