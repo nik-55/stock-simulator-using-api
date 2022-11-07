@@ -32,7 +32,7 @@ const Dashboard = () => {
                 prev_wealth += (parseFloat(res4.data[i].stock_price) * (parseInt(res4.data[i].stock_quantity)))
                 const options = { ...profile_options, params: { ...profile_options.params, symbol: res4.data[i].stock_name } }
                 const response = await axios.request(options)
-                current_wealth += parseFloat(response.data.price.regularMarketOpen.raw)
+                current_wealth += (parseFloat(response.data.price.regularMarketOpen.raw) * (parseInt(res4.data[i].stock_quantity)))
             }
             let del = prev_wealth - current_wealth
             del = Math.round(del * 100) / 100;
