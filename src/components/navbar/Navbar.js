@@ -5,6 +5,7 @@ import "./navbar.css"
 import dashboard_icon from "../../assests/images/dashboard_icon.png"
 import stock_window_icon from "../../assests/images/stock_window_icon.png"
 import transactions_icon from "../../assests/images/transactions_icon.png"
+import edu_icon from "../../assests/images/edu_icon.svg"
 import Logout from '../logout/Logout'
 
 const Navbar = () => {
@@ -45,7 +46,7 @@ const Navbar = () => {
                                 <img className='me-2' src={transactions_icon} alt="transactions_icon" />
                                 <NavLink className='w-50' to={"/transactions"}>Transactions</NavLink></li>
                             <li className="list-group-item d-flex align-items-center">
-                                <i className="text-light border rounded-circle p-1 fa-solid fa-info me-2"></i>
+                                <img className='me-2' src={edu_icon} alt="transactions_icon" />
                                 <NavLink className="w-50" to={"/edusec"}>Educational</NavLink>
                             </li>
                             <li className="list-group-item d-flex align-items-center">

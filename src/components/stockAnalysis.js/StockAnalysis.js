@@ -14,21 +14,21 @@ const graph_options = {
         y: {
             ticks: {
                 callback: function (value, index, ticks) {
-                    return '$' + value;
+                    return 'INR ' + value;
                 }
             },
-            grid: {
-                borderColor: "white",
-                color: "rgb(255, 255, 255)",
-                lineWidth: 0.1
-            }
+            // grid: {
+            //     borderColor: "white",
+            //     color: "rgb(255, 255, 255)",
+            //     lineWidth: 0.1
+            // }
         },
         x: {
-            grid: {
-                borderColor: "white",
-                color: "rgb(255, 255, 255)",
-                lineWidth: 0.1
-            }
+            // grid: {
+            //     borderColor: "white",
+            //     color: "rgb(255, 255, 255)",
+            //     lineWidth: 0.1
+            // }
         }
     },
     plugins: {
@@ -43,6 +43,7 @@ const StockAnalysis = ({ stock }) => {
     const [buy_modal, setBuy_modal] = useState(true)
     const [bookmarked, setBookmarked] = useState(false)
     const [change, setChange] = useState({ price: "0", change: "0" })
+    const [sma, setSma] = useState([])
 
     const bookmark = async () => {
         await basicAxios.post("/trading/bookmark/", {
@@ -55,15 +56,28 @@ const StockAnalysis = ({ stock }) => {
 
     useEffect(() => {
         const func = async () => {
-            const options1 = { ...profile_options, params: { ...profile_options.params, symbol: stock.stockname } }
-            const res1 = await axios.request(options1)
-            const price = res1.data.price.regularMarketOpen.raw
-            let del = parseFloat(price) - parseFloat(res1.data.price.regularMarketPreviousClose.raw)
-            del = Math.round(del * 100) / 100;
-            setChange({ price: price, change: del })
+            try {
+                const options1 = { ...profile_options, params: { ...profile_options.params, symbol: stock.stockname } }
+                const res1 = await axios.request(options1)
+                const price = res1.data.price.regularMarketOpen.raw
+                let del = parseFloat(price) - parseFloat(res1.data.price.regularMarketPreviousClose.raw)
+                del = Math.round(del * 100) / 100;
+                setChange({ price: price, change: del })
+                const arr = stock.actual_prices;
+
+                let sum = 0, sma = []
+                for (let j = 0; j < arr.size; j += 20) {
+                    for (let i = j; i < j + 20; i++) sum += arr[i]
+                    sma.push((sum / 20))
+                }
+                setSma(sma)
+            }
+            catch (err) {
+
+            }
         }
         func()
-    }, [stock.stockname])
+    }, [stock.stockname, stock.actual_prices])
 
     return (
         <>
@@ -73,26 +87,26 @@ const StockAnalysis = ({ stock }) => {
             <>
                 <div className='w-100 d-flex mt-1'>
                     <div className='flex-grow-1 my-auto d-flex'>
-                        <img src={stock_img} className="stock-img" alt="stock-brand" />
-                        <h4 className='ms-2'>{stock.stockname}</h4>
+                        <img src={stock_img} className="stock-img my-auto" alt="stock-brand" />
+                        <h4 className='ms-2 my-auto'>{stock.stockname}</h4>
                     </div>
                     <button onClick={() => setBuy_modal(true)} data-bs-toggle="modal" data-bs-target="#exampleModal" className='btn m-2 buy-btn'>Buy</button>
                     <button onClick={() => setBuy_modal(false)} data-bs-toggle="modal" data-bs-target="#exampleModal" className='btn m-2 sell-btn'>Sell</button>
                 </div>
 
-                <div className='w-100 d-flex'>
+                <div className='w-100 d-flex align-items-center'>
                     <div className='flex-grow-1 my-auto d-flex flex-column'>
                         <h4 className='ms-2'>{`INR ${change.price}K`}</h4>
                         {change.change >= 0 ? <span className='ms-2 text-success'>{`+ INR ${change.change}K`}</span> :
                             <span className='ms-2 text-danger'>{`- INR ${-change.change}K`}</span>}
                     </div>
-                    {bookmarked ? <button onClick={bookmark} className='btn my-auto h-50 btn-dark text-light m-2'>Bookmarked<i className="ms-1 fa-regular fa-bookmark"></i></button> : <button onClick={bookmark} className='btn my-auto h-50 btn-outline-dark m-2'>Bookmark<i className="ms-1 fa-regular fa-bookmark"></i></button>}
+                    {bookmarked ? <button onClick={bookmark} className='btn my-auto btn-dark text-light m-2'>Bookmarked<i className="ms-1 fa-regular fa-bookmark"></i></button> : <button onClick={bookmark} className='btn my-auto btn-outline-dark m-2'>Bookmark<i className="ms-1 fa-regular fa-bookmark"></i></button>}
                 </div>
                 <div className='m-3 stock-graph p-5'>
-                    <Line data={{
+                    {sma.length !== 0 && <Line data={{
                         labels: stock.labels,
                         datasets: [{
-                            label: 'Opening Prices',
+                            label: 'Price vs Time',
                             data: stock.prices,
                             backgroundColor: "#F9A785",
                             borderColor: "#F9A785",
@@ -100,8 +114,17 @@ const StockAnalysis = ({ stock }) => {
                                 target: 'origin',
                                 above: 'rgb(249, 167, 133, 0.2)'
                             }
+                        }, {
+                            label: 'SMA vs Time',
+                            data: sma,
+                            backgroundColor: "#F9A785",
+                            borderColor: "#F9A785",
+                            fill: {
+                                target: 'origin',
+                                above: 'rgb(249, 167, 133, 0.2)'
+                            }
                         }]
-                    }} options={graph_options} />
+                    }} options={graph_options} />}
                 </div></>
         </>
     )

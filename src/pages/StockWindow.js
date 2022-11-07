@@ -37,7 +37,7 @@ const StockWindow = () => {
                 const label = `${("0" + myDate.getHours()).slice(-2)}:${("0" + myDate.getMinutes()).slice(-2)} hrs`
                 labels.push(label);
             }
-            setStock({ prices: [...prices], labels: [...labels], stockname, price, change })
+            setStock({ prices: [...prices], labels: [...labels], stockname, price, change, actual_prices: res.data })
         }
         catch (err) {
             setError(err?.message || "Error occured while searching")

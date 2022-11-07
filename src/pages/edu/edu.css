@@ -7,10 +7,36 @@
   flex-wrap: wrap;
 }
 
-.c-card {
+.edu-cont .c-card {
   width: 25%;
 }
 
-.c-card:hover {
+.edu-cont .c-card:hover {
   transform: scale(0.9, 1.2);
+}
+
+.about-div {
+  height: 85vh;
+  width: 100%;
+}
+
+.upper-div {
+  height: 60vh;
+  width: 100%;
+}
+
+.about-img {
+  height: 30vh;
+  width: 24%;
+  border: 1px solid black;
+}
+
+.about-content {
+  height: 100%;
+  width: 60%;
+}
+
+.about-footer {
+  height: 20vh;
+  width: 100%;
 }

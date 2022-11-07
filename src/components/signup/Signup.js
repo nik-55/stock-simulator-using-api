@@ -56,10 +56,9 @@ const Signup = ({ login_modal }) => {
                     <input ref={cpasswordRef} type="password" className="form-control" id="signupCPassword" placeholder="Confirm Password" />
                     <label forhtml="signupCPassword">Confirm Password</label>
                 </div>
-                <div className="modal-footer border-0">
+                <div className="mt-3 d-flex justify-content-center">
                     <button className='btn btn-primary'>Signup</button>
                 </div>
-
             </form>
         </>
     )

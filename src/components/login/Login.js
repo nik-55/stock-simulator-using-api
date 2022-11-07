@@ -40,7 +40,7 @@ const Login = () => {
                     <input ref={passwordRef} type="password" className="form-control" id="signupPassword" placeholder="Password" />
                     <label forhtml="signupPassword">Password</label>
                 </div>
-                <div className="modal-footer border-0">
+                <div className="mt-3 d-flex justify-content-center">
                     <button className='btn btn-primary'>Login</button>
                 </div>
             </form>

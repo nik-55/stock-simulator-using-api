@@ -40,9 +40,6 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true)
     const [change, setChange] = useState(0)
     const [lineData, setLineData] = useState()
-    // const [show1, setShow1] = useState(false)
-    // const [show2, setShow2] = useState(false)
-    // const [show3, setShow3] = useState(false)
 
     useEffect(() => {
         const func = async () => {
@@ -50,31 +47,24 @@ const Dashboard = () => {
                 const res1 = await basicAxios.post("/trading/getbalance/", {
                     jwt_token: localStorage.getItem("jwt_token")
                 })
+                setBalance(res1.data.balance)
+
                 const res2 = await basicAxios.post("/trading/getbookmark/", {
                     jwt_token: localStorage.getItem("jwt_token")
                 })
-                const res4 = await basicAxios.post("/trading/getstock/", {
-                    jwt_token: localStorage.getItem("jwt_token")
-                })
-                let prev_wealth = 0, current_wealth = 0;
-                for (let i = 0; i < res4.data.length; i++) {
-                    prev_wealth += (parseFloat(res4.data[i].stock_price) * (parseInt(res4.data[i].stock_quantity)))
-                    const options = { ...profile_options, params: { ...profile_options.params, symbol: res4.data[i].stock_name } }
-                    const response = await axios.request(options)
-                    current_wealth += (parseFloat(response.data.price.regularMarketOpen.raw) * (parseInt(res4.data[i].stock_quantity)))
-                }
-                let del = prev_wealth - current_wealth
-                del = Math.round(del * 100) / 100;
-                setChange(del)
-
-                setBalance(res1.data.balance)
                 const arr1 = res2.data.filter((ele, i) => {
                     if (i < 3) return true
                     return false
                 })
                 setBookarr(arr1)
+
+                const res4 = await basicAxios.post("/trading/getstock/", {
+                    jwt_token: localStorage.getItem("jwt_token")
+                })
+
                 const arr = res4.data.map((ele) => { return ele.stock_quantity })
                 const arr2 = res4.data.map((ele) => { return ele.stock_name })
+
 
                 const prices_arr = []
                 const labels_arr = []
@@ -107,11 +97,23 @@ const Dashboard = () => {
 
                 setLineData({ data: data_arr, labels: labels_arr[0] })
                 setPieData({ data: arr, labels: arr2 })
+
+                let prev_wealth = 0, current_wealth = 0;
+                for (let i = 0; i < res4.data.length; i++) {
+                    prev_wealth += (parseFloat(res4.data[i].stock_price) * (parseInt(res4.data[i].stock_quantity)))
+                    const options = { ...profile_options, params: { ...profile_options.params, symbol: res4.data[i].stock_name } }
+                    const response = await axios.request(options)
+                    current_wealth += (parseFloat(response.data.price.regularMarketOpen.raw) * (parseInt(res4.data[i].stock_quantity)))
+                }
+                let del = prev_wealth - current_wealth
+                del = Math.round(del * 100) / 100;
+                setChange(del)
+
+                setLoading(false)
             }
             catch (err) {
 
             }
-            setLoading(false)
         }
         func()
     }, [])
