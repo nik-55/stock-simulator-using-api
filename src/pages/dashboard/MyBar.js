@@ -4,7 +4,7 @@ import { Bar } from 'react-chartjs-2'
 const MyBar = () => {
     return (
         <>
-            <Bar className='mx-auto' data={{
+            <Bar data={{
                 labels: [
                     'Red',
                     'Blue',

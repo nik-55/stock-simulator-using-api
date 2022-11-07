@@ -65,3 +65,12 @@
 .info-div {
   height: 30%;
 }
+
+.pie-div {
+  height: 39vh;
+}
+
+.stock-dist-cont {
+  border-radius: 16px;
+  border: 1px solid #d0c8c8;
+}

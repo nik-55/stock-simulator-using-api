@@ -49,7 +49,7 @@ const Dashboard = () => {
     }, [])
     return (
         <div className='dashbrd-container bd'>
-            <div className='box-1'>
+            <div className='box-1 bd'>
                 <MyBar />
             </div>
 
@@ -74,7 +74,7 @@ const Dashboard = () => {
                         <b className='mt-3'>Bookmark Stocks</b>
                         <div className="wid-100 mt-4 d-flex flex-column justify-content-center align-items-center">
                             {bookarr.filter((ele, i) => {
-                                if (i < 4) return true
+                                if (i < 3) return true
                                 return false
                             }).map((stk) => {
                                 return <div key={stk.stock_name} className='p-2 m-2 bookmark-item d-flex'>
@@ -86,9 +86,9 @@ const Dashboard = () => {
                     </div></Link>
                 </div>
 
-                <div className='wid-50 hei-100 d-flex flex-column align-items-center'>
-                    <b>Stocks Distribution</b>
-                    <div className='wid-100'>
+                <div className='wid-50 hei-100 stock-dist-cont mt-2 d-flex flex-column align-items-center'>
+                    <b className='mt-3 mb-3'>Stocks Distribution</b>
+                    <div className='wid-100 pie-div d-flex'>
                         {!loading && <MyPie pieData={pieData} />}
                     </div>
                 </div>

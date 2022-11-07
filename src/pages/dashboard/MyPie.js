@@ -5,7 +5,7 @@ import { pie_bg } from "../../constants/pie_bg"
 const MyPie = ({ pieData }) => {
     return (
         <>
-            <Pie className='mx-auto' data={{
+            <Pie className='mx-auto mb-4' data={{
                 labels: pieData.labels,
                 datasets: [{
                     label: 'Stock Distribution',
@@ -16,7 +16,17 @@ const MyPie = ({ pieData }) => {
                     }),
                     hoverOffset: 4
                 }]
-            }} options={{ maintainAspectRatio: false }} />
+            }} options={{
+                maintainAspectRatio: false, plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            color: "#000000",
+                            boxHeight: "50"
+                        }
+                    }
+                }
+            }} />
         </>
     )
 }
