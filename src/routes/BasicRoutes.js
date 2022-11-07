@@ -7,6 +7,8 @@ import StockWindow from '../pages/StockWindow'
 import Aboutus from '../pages/Aboutus'
 import PrivateRoute from "./PrivateRoute"
 import RedirectDash from './RedirectDash'
+import BookMark from '../pages/bookmark/BookMark'
+import BookmarkGraph from '../components/BookmarkGraph'
 
 const BasicRoutes = () => {
 
@@ -16,6 +18,8 @@ const BasicRoutes = () => {
             <Route path='/dashboard' element={<PrivateRoute><Dashboard /></PrivateRoute>} />
             <Route path='/stockwindow' element={<PrivateRoute><StockWindow /></PrivateRoute>} />
             <Route path='/transactions' element={<PrivateRoute><Transactions /></PrivateRoute>} />
+            <Route path='/bookmark' element={<PrivateRoute><BookMark /></PrivateRoute>} />
+            <Route path='/bookmark/:stockname' element={<PrivateRoute><BookmarkGraph /></PrivateRoute>} />
             <Route path='/aboutus' element={<Aboutus />} />
         </Routes>
     )

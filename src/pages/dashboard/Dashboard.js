@@ -119,7 +119,7 @@ const Dashboard = () => {
                             {bookarr.map((stk) => {
                                 return <div key={stk.stock_name} className='p-2 m-1 bookmark-item d-flex'>
                                     <span className='flex-grow-1'>{stk.stock_name}</span>
-                                    <span className=''>{`INR ${stk.stock_price}k`}</span>
+                                    <span>{`INR ${stk.stock_price}k`}</span>
                                 </div>
                             })}
                         </div>
