@@ -22,7 +22,6 @@ const MyPie = ({ pieData }) => {
                         position: 'right',
                         labels: {
                             color: "#000000",
-                            boxHeight: "50"
                         }
                     }
                 }

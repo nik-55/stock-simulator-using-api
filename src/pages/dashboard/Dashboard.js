@@ -49,21 +49,41 @@ const Dashboard = () => {
             const arr = res4.data.map((ele) => { return ele.stock_quantity })
             const arr2 = res4.data.map((ele) => { return ele.stock_name })
 
-            const options = { ...history_options, params: { ...history_options.params, symbol: arr1[0].stock_name } }
-            const res = await axios.request(options)
-            const prices = []
-            for (let i = 1; i <= res.data.prices.length; i += 20) {
-                prices.push(res.data.prices[i - 1].open)
+            const prices_arr = []
+            const labels_arr = []
+
+            for (let i = 0; i < arr1.length; i++) {
+                const options = { ...history_options, params: { ...history_options.params, symbol: arr1[i].stock_name } }
+                const res = await axios.request(options)
+                const prices = []
+                for (let i = 1; i <= res.data.prices.length; i += 20) {
+                    prices.push(res.data.prices[i - 1].open)
+                }
+                prices_arr.push(prices)
+
+                const labels = []
+                for (let i = 1; i <= res.data.prices.length; i += 20) {
+                    const myDate = new Date(res.data.prices[i - 1].date);
+                    const label = `${("0" + myDate.getHours()).slice(-2)}:${("0" + myDate.getMinutes()).slice(-2)} hrs`
+                    labels.push(label);
+                }
+                labels_arr.push(labels)
+            }
+            const data_arr = []
+            for (let i = 0; i < prices_arr.length; i++) {
+                data_arr.push({
+                    label: arr1[i].stock_name,
+                    data: prices_arr[i],
+                    backgroundColor: "#F9A785",
+                    borderColor: "#F9A785",
+                    fill: {
+                        target: 'origin',
+                        above: 'rgb(249, 167, 133, 0.2)'
+                    }
+                })
             }
 
-            const labels = []
-            for (let i = 1; i <= res.data.prices.length; i += 20) {
-                const myDate = new Date(res.data.prices[i - 1].date);
-                const label = `${("0" + myDate.getHours()).slice(-2)}:${("0" + myDate.getMinutes()).slice(-2)} hrs`
-                labels.push(label);
-            }
-
-            setLineData({ data: [...prices], labels: [...labels] })
+            setLineData({ data: data_arr, labels: labels_arr[0] })
             setPieData({ data: arr, labels: arr2 })
             setLoading(false)
         }
