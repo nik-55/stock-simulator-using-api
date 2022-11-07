@@ -49,36 +49,36 @@ const Dashboard = () => {
     }, [])
     return (
         <div className='dashbrd-container bd'>
-            <div className='box-1 bd-n'>
+            <div className='box-1'>
                 <MyBar />
             </div>
 
-            <div className='box-2 bd'>
+            <div className='box-2'>
 
-                <div className='wid-50 hei-100 bd-n'>
+                <div className='wid-50 hei-100'>
 
-                    <div className='d-flex wid-100 hei-50'>
+                    <div className='d-flex wid-100 info-div'>
 
-                        <div className='wid-50 hei-100 change d-flex flex-column justify-content-center align-items-center'>
+                        <div className='wid-50 m-3 change d-flex flex-column justify-content-center align-items-center'>
                             <b>Net Profit/Loss</b>
                             {change >= 0 ? <span className='text-success'>{`+ INR ${change}k`}</span> :
                                 <span className='text-danger'>{`- INR ${-change}k`}</span>}
                         </div>
-                        <div className='wid-50 hei-100 d-flex flex-column justify-content-center align-items-center available-fund'>
+                        <div className='wid-50 m-3 d-flex flex-column justify-content-center align-items-center available-fund'>
                             <b>Available Funds</b>
                             <span>{`INR ${balance}k`}</span>
                         </div>
                     </div>
 
-                    <Link to="/bookmark"><div className='wid-100 hei-50 d-flex flex-column justify-content-center align-items-center'>
-                        <b>Bookmark Stocks</b>
-                        <div className="wid-100 d-flex flex-column justify-content-center align-items-center">
+                    <Link to="/bookmark"><div className='bookmark-cont mx-auto d-flex flex-column align-items-center'>
+                        <b className='mt-3'>Bookmark Stocks</b>
+                        <div className="wid-100 mt-4 d-flex flex-column justify-content-center align-items-center">
                             {bookarr.filter((ele, i) => {
-                                if (i < 3) return true
+                                if (i < 4) return true
                                 return false
                             }).map((stk) => {
-                                return <div key={stk.stock_name} className='bookmark-item d-flex'>
-                                    <span className=''>{stk.stock_name}</span>
+                                return <div key={stk.stock_name} className='p-2 m-2 bookmark-item d-flex'>
+                                    <span className='flex-grow-1'>{stk.stock_name}</span>
                                     <span className=''>{`INR ${stk.stock_price}k`}</span>
                                 </div>
                             })}
@@ -86,7 +86,7 @@ const Dashboard = () => {
                     </div></Link>
                 </div>
 
-                <div className='wid-50 hei-100 bd d-flex flex-column align-items-center'>
+                <div className='wid-50 hei-100 d-flex flex-column align-items-center'>
                     <b>Stocks Distribution</b>
                     <div className='wid-100'>
                         {!loading && <MyPie pieData={pieData} />}

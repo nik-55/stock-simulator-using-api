@@ -9,12 +9,12 @@
 
 .dashbrd-container .box-1 {
   width: 100%;
-  height: 46vh;
+  height: 44vh;
 }
 
 .dashbrd-container .box-2 {
   width: 100%;
-  height: 46vh;
+  height: 44vh;
   display: flex;
 }
 
@@ -40,12 +40,28 @@
 
 .dashbrd-container .change {
   background-color: #eadff8;
+  border-radius: 10px;
 }
 
 .dashbrd-container .available-fund {
   background-color: #ffe2d6;
+  border-radius: 10px;
 }
 
 .dashbrd-container .bookmark-item {
   background-color: #ffe2d6;
+  width: 70%;
+  border-radius: 10px;
+}
+
+.bookmark-cont {
+  border: 1px solid #d0c8c8;
+  border-radius: 16px;
+  width: 60%;
+  height: 70%;
+  color: black;
+}
+
+.info-div {
+  height: 30%;
 }
