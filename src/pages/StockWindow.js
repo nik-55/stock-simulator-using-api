@@ -3,26 +3,7 @@ import StockAnalysis from '../components/stockAnalysis.js/StockAnalysis'
 import stock_window_img from "../assests/images/stock_window_img.svg"
 import axios from 'axios'
 import Loader from "../components/Loader"
-
-const profile_options = {
-    method: 'GET',
-    url: 'https://yh-finance.p.rapidapi.com/stock/v2/get-profile',
-    params: { region: 'US' },
-    headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_X_RAPIDAPIKEY,
-        'X-RapidAPI-Host': 'yh-finance.p.rapidapi.com'
-    }
-};
-
-const history_options = {
-    method: 'GET',
-    url: 'https://yh-finance.p.rapidapi.com/stock/v3/get-historical-data',
-    params: { region: 'US' },
-    headers: {
-        'X-RapidAPI-Key': process.env.REACT_APP_X_RAPIDAPIKEY,
-        'X-RapidAPI-Host': 'yh-finance.p.rapidapi.com'
-    }
-};
+import { profile_options, history_options } from '../constants/rapid_const'
 
 const StockWindow = () => {
     const [error, setError] = useState("")
@@ -42,11 +23,10 @@ const StockWindow = () => {
             setShow(false)
             const res = await axios.request(options)
             const res1 = await axios.request(options1)
-            const stockname = res1.data.quoteType.longName;
+            const stockname = res1.data.quoteType.symbol;
             const price = res1.data.price.regularMarketOpen.raw
             let change = parseFloat(price) - parseFloat(res1.data.price.regularMarketPreviousClose.raw)
             change = Math.round(change * 100) / 100;
-
             const prices = []
             for (let i = 1; i <= res.data.prices.length; i += 20) {
                 prices.push(res.data.prices[i - 1].open)
@@ -57,8 +37,6 @@ const StockWindow = () => {
                 const label = `${("0" + myDate.getHours()).slice(-2)}:${("0" + myDate.getMinutes()).slice(-2)} hrs`
                 labels.push(label);
             }
-
-
             setStock({ prices: [...prices], labels: [...labels], stockname, price, change })
         }
         catch (err) {

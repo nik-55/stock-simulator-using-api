@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import { basicAxios } from '../api/customAxios'
 import { authReducer } from '../reducers/authReducer'
 import { authConstant } from "../constants/authConstant"
-import Loader from '../components/Loader'
+import AuthLoader from '../components/AuthLoader'
 
 const AuthContext = createContext()
 const useAuth = () => {
@@ -51,7 +51,7 @@ const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={value}>
-            {state.loading ? <Loader /> : children}
+            {state.loading ? <AuthLoader /> : children}
         </AuthContext.Provider>)
 }
 

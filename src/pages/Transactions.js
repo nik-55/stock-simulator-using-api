@@ -9,7 +9,6 @@ const Transactions = () => {
                 jwt_token: localStorage.getItem("jwt_token")
             })
             setTrans(res.data)
-            console.log(res.data[0].date_time);
         }
         func()
     }, [])
@@ -21,8 +20,8 @@ const Transactions = () => {
                     <tr>
                         <th scope="col">Stock</th>
                         <th scope="col">Bought/Sold</th>
-                        <th scope="col">No. of Stocks</th>
-                        <th scope="col">Date</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Stock Price</th>
                         <th scope="col">Time</th>
                         <th scope="col">Status</th>
                     </tr>
@@ -33,8 +32,8 @@ const Transactions = () => {
                             <td>{stk.stock_name}</td>
                             <td>{stk.buy_sell}</td>
                             <td>{stk.stock_quantity}</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
+                            <td>{stk.stock_price}</td>
+                            <td>{stk.date_time}</td>
                             <td className='text-success'>Success</td>
                         </tr>
                     })}

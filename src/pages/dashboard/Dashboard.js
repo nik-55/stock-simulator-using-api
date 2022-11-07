@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Bar, Pie } from 'react-chartjs-2'
 import "./dashboard.css"
 import { basicAxios } from "../../api/customAxios"
+import MyPie from './MyPie'
+import MyBar from './MyBar'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { profile_options } from '../../constants/rapid_const'
 
 const Dashboard = () => {
     const [balance, setBalance] = useState("")
     const [bookarr, setBookarr] = useState([])
-    // const [change, setChange] = useState()
+    const [pieData, setPieData] = useState()
+    const [loading, setLoading] = useState(true)
+    const [change, setChange] = useState(0)
     useEffect(() => {
         const func = async () => {
             const res1 = await basicAxios.post("/trading/getbalance/", {
@@ -21,28 +27,30 @@ const Dashboard = () => {
             const res4 = await basicAxios.post("/trading/getstock/", {
                 jwt_token: localStorage.getItem("jwt_token")
             })
-            console.log(res1.data.balance);
-            console.log(res3, res4);
+            let prev_wealth = 0, current_wealth = 0;
+            for (let i = 0; i < res4.data.length; i++) {
+                prev_wealth += (parseFloat(res4.data[i].stock_price) * (parseInt(res4.data[i].stock_quantity)))
+                const options = { ...profile_options, params: { ...profile_options.params, symbol: res4.data[i].stock_name } }
+                const response = await axios.request(options)
+                current_wealth += parseFloat(response.data.price.regularMarketOpen.raw)
+            }
+            let del = prev_wealth - current_wealth
+            del = Math.round(del * 100) / 100;
+            setChange(del)
+
             setBalance(res1.data.balance)
             setBookarr(res2.data)
+            const arr = res4.data.map((ele) => { return ele.stock_quantity })
+            const arr2 = res4.data.map((ele) => { return ele.stock_name })
+            setPieData({ data: arr, labels: arr2 })
+            setLoading(false)
         }
         func()
     }, [])
     return (
         <div className='dashbrd-container bd'>
             <div className='box-1 bd-n'>
-                <Bar className='mx-auto' data={{
-                    labels: [
-                        'Red',
-                        'Blue',
-                        'Yellow'
-                    ],
-                    datasets: [{
-                        label: 'My First Dataset',
-                        data: [300, 50, 100],
-                        backgroundColor: "#F5D699"
-                    }]
-                }} options={{ maintainAspectRatio: false }} />
+                <MyBar />
             </div>
 
             <div className='box-2 bd'>
@@ -53,7 +61,8 @@ const Dashboard = () => {
 
                         <div className='wid-50 hei-100 change d-flex flex-column justify-content-center align-items-center'>
                             <b>Net Profit/Loss</b>
-                            <span className='text-success'>{`+ INR 400k`}</span>
+                            {change >= 0 ? <span className='text-success'>{`+ INR ${change}k`}</span> :
+                                <span className='text-danger'>{`- INR ${-change}k`}</span>}
                         </div>
                         <div className='wid-50 hei-100 d-flex flex-column justify-content-center align-items-center available-fund'>
                             <b>Available Funds</b>
@@ -61,39 +70,26 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    <div className='wid-100 hei-50 d-flex flex-column justify-content-center align-items-center'>
+                    <Link to="/bookmark"><div className='wid-100 hei-50 d-flex flex-column justify-content-center align-items-center'>
                         <b>Bookmark Stocks</b>
                         <div className="wid-100 d-flex flex-column justify-content-center align-items-center">
-                            {bookarr.map((stk) => {
+                            {bookarr.filter((ele, i) => {
+                                if (i < 3) return true
+                                return false
+                            }).map((stk) => {
                                 return <div key={stk.stock_name} className='bookmark-item d-flex'>
                                     <span className=''>{stk.stock_name}</span>
                                     <span className=''>{`INR ${stk.stock_price}k`}</span>
                                 </div>
                             })}
                         </div>
-                    </div>
+                    </div></Link>
                 </div>
 
                 <div className='wid-50 hei-100 bd d-flex flex-column align-items-center'>
                     <b>Stocks Distribution</b>
                     <div className='wid-100'>
-                        <Pie className='mx-auto' data={{
-                            labels: [
-                                'Red',
-                                'Blue',
-                                'Yellow'
-                            ],
-                            datasets: [{
-                                label: 'My First Dataset',
-                                data: [300, 50, 100],
-                                backgroundColor: [
-                                    'rgb(255, 99, 132)',
-                                    'rgb(54, 162, 235)',
-                                    'rgb(255, 205, 86)'
-                                ],
-                                hoverOffset: 4
-                            }]
-                        }} options={{ maintainAspectRatio: false }} />
+                        {!loading && <MyPie pieData={pieData} />}
                     </div>
                 </div>
             </div>

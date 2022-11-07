@@ -10,7 +10,7 @@ const Logout = () => {
     }
 
     return (
-        <button onClick={signout} className='btn btn-outline-warning'><img className='me-2' src={logout_icon} alt="Logout" />Logout</button>
+        <button onClick={signout} className='btn btn-outline-danger signout'><img className='me-2' src={logout_icon} alt="Logout" />Logout</button>
     )
 }
 
