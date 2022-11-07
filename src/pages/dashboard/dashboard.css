@@ -8,8 +8,11 @@
 }
 
 .dashbrd-container .box-1 {
-  width: 100%;
+  width: 90%;
   height: 44vh;
+  border: 1px solid #d0c8c8;
+  border-radius: 10px;
+  margin: 0.5%;
 }
 
 .dashbrd-container .box-2 {
@@ -41,11 +44,13 @@
 .dashbrd-container .change {
   background-color: #eadff8;
   border-radius: 10px;
+  width: 30%;
 }
 
 .dashbrd-container .available-fund {
   background-color: #ffe2d6;
   border-radius: 10px;
+  width: 30%;
 }
 
 .dashbrd-container .bookmark-item {
@@ -78,9 +83,9 @@
 
 @keyframes anime-bg {
   from {
-    backgroundcolor: "rgb(216,216,216,0.5)";
+    background-color: rgb(107, 107, 107, 0.1);
   }
   to {
-    backgroundcolor: "rgb(216,216,216,0.8)";
+    background-color: rgb(107, 107, 107, 0.3);
   }
 }

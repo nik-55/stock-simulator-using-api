@@ -32,8 +32,9 @@ const graph_options = {
     plugins: {
         legend: {
             position: "bottom"
-        }
-    }
+        },
+    },
+    maintainAspectRatio: false
 }
 
 const StockAnalysis = ({ stock }) => {
@@ -55,7 +56,7 @@ const StockAnalysis = ({ stock }) => {
                 <Modal modal_body={<Sell stock={stock} />} modal_title={"Sell Stock"} />}
 
             <>
-                <div className='w-100 d-flex mt-2'>
+                <div className='w-100 d-flex mt-1'>
                     <div className='flex-grow-1 my-auto d-flex'>
                         <img src={stock_img} className="stock-img" alt="stock-brand" />
                         <h4 className='ms-2'>{stock.stockname}</h4>

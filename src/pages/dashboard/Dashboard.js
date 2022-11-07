@@ -6,6 +6,32 @@ import MyBar from './MyBar'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { profile_options, history_options } from '../../constants/rapid_const'
+const obj = {
+    animationName: "anime-bg", animationDuration: "3s", animationIterationCount: "infinite",
+}
+
+const opt = [{
+    backgroundColor: "#F9A785",
+    borderColor: "#F9A785",
+    fill: {
+        target: 'origin',
+        above: 'rgb(249, 167, 133, 0.2)'
+    }
+}, {
+    backgroundColor: "#F9A785",
+    borderColor: "#F9A785",
+    fill: {
+        target: 'origin',
+        above: 'rgb(249, 167, 133, 0.2)'
+    }
+}, {
+    backgroundColor: "#F9A785",
+    borderColor: "#F9A785",
+    fill: {
+        target: 'origin',
+        above: '#EADFF8'
+    }
+}]
 
 const Dashboard = () => {
     const [balance, setBalance] = useState("")
@@ -74,12 +100,7 @@ const Dashboard = () => {
                 data_arr.push({
                     label: arr1[i].stock_name,
                     data: prices_arr[i],
-                    backgroundColor: "#F9A785",
-                    borderColor: "#F9A785",
-                    fill: {
-                        target: 'origin',
-                        above: 'rgb(249, 167, 133, 0.2)'
-                    }
+                    ...opt[i]
                 })
             }
 
@@ -91,29 +112,27 @@ const Dashboard = () => {
     }, [])
     return (
         <div className='dashbrd-container'>
-            <div className='box-1 p-4'>
+            <div className='box-1 mx-auto p-4' style={loading ? obj : {}}>
                 {!loading && <MyBar lineData={lineData} />}
             </div>
 
-            <div className='box-2 mt-3'>
+            <div className='box-2 mt-1'>
 
                 <div className='wid-50 hei-100'>
 
-                    <div className='d-flex wid-100 info-div'>
-
-                        <div className='wid-50 m-3 change d-flex flex-column justify-content-center align-items-center'>
+                    <div className='d-flex justify-content-center wid-100 info-div'>
+                        <div className=' m-3 change d-flex flex-column justify-content-center align-items-center' style={loading ? obj : {}}>
                             <b>Net Profit/Loss</b>
                             {change >= 0 ? <span className='text-success'>{`+ INR ${change}k`}</span> :
                                 <span className='text-danger'>{`- INR ${-change}k`}</span>}
                         </div>
-                        <div className='wid-50 m-3 d-flex flex-column justify-content-center align-items-center available-fund'>
+                        <div className='wid-50 mt-3 mb-3 d-flex flex-column justify-content-center align-items-center available-fund' style={loading ? obj : {}}>
                             <b>Available Funds</b>
                             <span>{`INR ${balance}k`}</span>
                         </div>
                     </div>
 
-                    <Link to="/bookmark"><div className='bookmark-cont mx-auto d-flex flex-column align-items-center' style={loading ? {
-                    } : {}}>
+                    <Link to="/bookmark"><div className='bookmark-cont mx-auto d-flex flex-column align-items-center' style={loading ? obj : {}}>
                         <b className='mt-2'>Bookmark Stocks</b>
                         <div className="wid-100 mt-2 d-flex flex-column justify-content-center align-items-center">
                             {bookarr.map((stk) => {
@@ -126,7 +145,7 @@ const Dashboard = () => {
                     </div></Link>
                 </div>
 
-                <div className='hei-100 stock-dist-cont mt-2 d-flex flex-column align-items-center'>
+                <div className='hei-100 stock-dist-cont mt-2 d-flex flex-column align-items-center' style={loading ? obj : {}}>
                     <b className='mt-3 mb-3'>Stocks Distribution</b>
                     <div className='wid-100 pie-div d-flex'>
                         {!loading && <MyPie pieData={pieData} />}
