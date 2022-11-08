@@ -98,14 +98,13 @@ const Dashboard = () => {
                 setLineData({ data: data_arr, labels: labels_arr[0] })
                 setPieData({ data: arr, labels: arr2 })
 
-                let prev_wealth = 0, current_wealth = 0;
+                let prev_wealth = res1.data.balance, current_wealth = 0;
                 for (let i = 0; i < res4.data.length; i++) {
-                    prev_wealth += (parseFloat(res4.data[i].stock_price) * (parseInt(res4.data[i].stock_quantity)))
                     const options = { ...profile_options, params: { ...profile_options.params, symbol: res4.data[i].stock_name } }
                     const response = await axios.request(options)
                     current_wealth += (parseFloat(response.data.price.regularMarketOpen.raw) * (parseInt(res4.data[i].stock_quantity)))
                 }
-                let del = prev_wealth - current_wealth
+                let del = prev_wealth + current_wealth - 100000
                 del = Math.round(del * 100) / 100;
                 setChange(del)
 
