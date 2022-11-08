@@ -9,6 +9,29 @@ import { basicAxios } from '../../api/customAxios'
 import { profile_options } from '../../constants/rapid_const'
 import axios from 'axios'
 
+const opt = [{
+    backgroundColor: "#F9A785",
+    borderColor: "#F9A785",
+    fill: {
+        target: 'origin',
+        above: 'rgb(249, 167, 133,0.5)'
+    }
+}, {
+    backgroundColor: "#C0C0C0",
+    borderColor: "#C0C0C0",
+    fill: {
+        target: 'origin',
+        above: 'rgb(192, 192, 192,0.5)'
+    }
+}, {
+    backgroundColor: "#98FB98",
+    borderColor: "#98FB98",
+    fill: {
+        target: 'origin',
+        above: 'rgb(152, 251, 152,0.5)'
+    }
+}]
+
 const graph_options = {
     scales: {
         y: {
@@ -17,18 +40,18 @@ const graph_options = {
                     return 'INR ' + value;
                 }
             },
-            // grid: {
-            //     borderColor: "white",
-            //     color: "rgb(255, 255, 255)",
-            //     lineWidth: 0.1
-            // }
+            grid: {
+                borderColor: "white",
+                color: "rgb(255, 255, 255)",
+                lineWidth: 0.1
+            }
         },
         x: {
-            // grid: {
-            //     borderColor: "white",
-            //     color: "rgb(255, 255, 255)",
-            //     lineWidth: 0.1
-            // }
+            grid: {
+                borderColor: "white",
+                color: "rgb(255, 255, 255)",
+                lineWidth: 0.1
+            }
         }
     },
     plugins: {
@@ -118,21 +141,11 @@ const StockAnalysis = ({ stock }) => {
                         datasets: [{
                             label: 'Price vs Time',
                             data: stock.prices,
-                            backgroundColor: "#F9A785",
-                            borderColor: "#F9A785",
-                            fill: {
-                                target: 'origin',
-                                above: 'rgb(249, 167, 133, 0.2)'
-                            }
+                            ...opt[0]
                         }, {
                             label: 'SMA vs Time',
                             data: sma,
-                            backgroundColor: "#F9A785",
-                            borderColor: "#F9A785",
-                            fill: {
-                                target: 'origin',
-                                above: 'rgb(249, 167, 133, 0.2)'
-                            }
+                            ...opt[2]
                         }]
                     }} options={graph_options} />}
                 </div></>

@@ -55,7 +55,10 @@ const StockWindow = () => {
             </div>}
             {show ? <img className='mt-1' style={{ width: "35%" }} alt="stock window" src={stock_window_img} /> :
                 stock.prices.length === 0 ?
-                    <div className='mt-5'><Loader /></div>
+                    <div className='mt-5'>
+                        <Loader />
+                        <span>{`Searching for ${srchRef.current.ref}`}</span>
+                    </div>
                     : <StockAnalysis stock={stock} />}
         </div>
     )

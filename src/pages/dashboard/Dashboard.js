@@ -15,21 +15,21 @@ const opt = [{
     borderColor: "#F9A785",
     fill: {
         target: 'origin',
-        above: 'rgb(205,255,204,0.5)'
+        above: 'rgb(249, 167, 133,0.5)'
     }
 }, {
-    backgroundColor: "#F9A785",
-    borderColor: "#F9A785",
+    backgroundColor: "#C0C0C0",
+    borderColor: "#C0C0C0",
     fill: {
         target: 'origin',
-        above: 'rgb(234, 223, 248,0.5)'
+        above: 'rgb(192, 192, 192,0.5)'
     }
 }, {
-    backgroundColor: "#F9A785",
-    borderColor: "#F9A785",
+    backgroundColor: "#98FB98",
+    borderColor: "#98FB98",
     fill: {
         target: 'origin',
-        above: 'rgb(249, 167, 133, 0.2)'
+        above: 'rgb(152, 251, 152,0.5)'
     }
 }]
 
@@ -107,7 +107,6 @@ const Dashboard = () => {
                 let del = prev_wealth + current_wealth - 100000
                 del = Math.round(del * 100) / 100;
                 setChange(del)
-
                 setLoading(false)
             }
             catch (err) {
