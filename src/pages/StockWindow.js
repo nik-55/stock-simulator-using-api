@@ -57,7 +57,7 @@ const StockWindow = () => {
                 stock.prices.length === 0 ?
                     <div className='mt-5'>
                         <Loader />
-                        <span>{`Searching for ${srchRef.current.ref}`}</span>
+                        <span>{`Searching for ${srchRef.current.value}`}</span>
                     </div>
                     : <StockAnalysis stock={stock} />}
         </div>
