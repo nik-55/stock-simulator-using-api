@@ -6,10 +6,12 @@ const Buy = ({ stock }) => {
     const [quantity, setQuan] = useState("0")
     const [amount, setAmount] = useState("0")
     const [show, setShow] = useState(false)
+    const [error, setError] = useState("")
 
     const bought = async (e) => {
         e.preventDefault()
         try {
+            if (parseInt(quantity) <= 0) throw new Error("Quantity should be more than zero")
             await basicAxios.post("/trading/buy/", {
                 jwt_token: localStorage.getItem("jwt_token"),
                 stock_name: stock.stockname,
@@ -18,12 +20,15 @@ const Buy = ({ stock }) => {
             })
             setShow(true)
         }
-        catch {
-            console.log("error");
+        catch (err) {
+            setError(err?.message || "Error occured while searching")
         }
     }
     return (
         <form onSubmit={bought} noValidate>
+            {error !== "" && <div className="mt-2 alert alert-warning" role="alert">
+                {error}
+            </div>}
             {show && <Success success_text={"Bought"} />}
             <div className="form-floating mb-3">
                 <input type="text" value={stock.price} className="form-control" id="buy-price" placeholder="Price" readOnly={true} />
@@ -32,7 +37,7 @@ const Buy = ({ stock }) => {
             <div className="form-floating mb-3">
                 <input value={quantity} onChange={(e) => {
                     setQuan(e.target.value);
-                    const am = (parseFloat(stock.price) * parseInt((e.target.value) || "0")).toString()
+                    const am = (Math.round(100 * parseFloat(stock.price) * parseInt((e.target.value) || "0")) / 100).toString()
                     setAmount(am)
                 }} type="text" className="form-control" id="buy-quantity" placeholder="Quantity" />
                 <label forhtml="buy-quantity">Quantity</label>

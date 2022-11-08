@@ -23,7 +23,7 @@ const BookmarkGraph = () => {
                 labels.push(label);
             }
 
-            setStock({ prices: prices, labels: labels, stockname: stockname, price: "100", change: "89" })
+            setStock({ prices: prices, labels: labels, stockname: stockname, actual_prices: res.data })
         }
         func()
     }, [stockname])

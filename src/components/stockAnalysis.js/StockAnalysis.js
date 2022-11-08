@@ -63,17 +63,25 @@ const StockAnalysis = ({ stock }) => {
                 let del = parseFloat(price) - parseFloat(res1.data.price.regularMarketPreviousClose.raw)
                 del = Math.round(del * 100) / 100;
                 setChange({ price: price, change: del })
-                const arr = stock.actual_prices;
+                const arr = stock.actual_prices.prices;
 
-                let sum = 0, sma = []
-                for (let j = 0; j < arr.size; j += 20) {
-                    for (let i = j; i < j + 20; i++) sum += arr[i]
-                    sma.push((sum / 20))
+                let sum = 0, sma1 = []
+                for (let j = 0; j < arr.length - 20; j += 20) {
+                    for (let i = j; i < j + 20; i++) sum += parseFloat((arr[i].open))
+                    sma1.push((sum / 20))
                 }
-                setSma(sma)
+                setSma(sma1)
+
+                const res2 = await basicAxios.post("/trading/getbookmark/", {
+                    jwt_token: localStorage.getItem("jwt_token")
+                })
+                for (let i = 0; i < res2.data.length; i++) if (res2.data[i].stock_name === stock.stockname) {
+                    setBookmarked(true)
+                    break
+                }
             }
             catch (err) {
-
+                console.log(err);
             }
         }
         func()
