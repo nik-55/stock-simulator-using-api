@@ -65,8 +65,9 @@ const StockAnalysis = ({ stock }) => {
                 setChange({ price: price, change: del })
                 const arr = stock.actual_prices.prices;
 
-                let sum = 0, sma1 = []
+                let sma1 = []
                 for (let j = 0; j < arr.length - 20; j += 20) {
+                    let sum = 0
                     for (let i = j; i < j + 20; i++) sum += parseFloat((arr[i].open))
                     sma1.push((sum / 20))
                 }

@@ -17,7 +17,7 @@ const Sell = ({ stock }) => {
                 jwt_token: localStorage.getItem("jwt_token"),
                 stock_name: stock.stockname,
                 stock_quantity: parseInt(quantity),
-                stock_price: parseFloat(stock.price),
+                stock_price: parseFloat(psell),
             })
             setShow(true)
         }
