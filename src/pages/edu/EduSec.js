@@ -4,14 +4,15 @@ import { arr } from "../../constants/educonstants"
 
 const EduSec = () => {
     return (
-        <div className='edu-cont'>
+        <div className='row row-cols-3 mt-5'>
             {arr.map((ele) => {
-                return <a href={ele.card_link} className="card bg-success c-card m-2 text-light">
-                    <div className="card-body">
-                        <h5 className="card-title">{ele.card_title}</h5>
-                        <p className="card-text">{ele.card_body}</p>
-                    </div>
-                </a>
+                return <div className='card-cont'>
+                    <a href={ele.card_link} className="mx-auto col c-card card bg-success text-light">
+                        <div className="card-body">
+                            <h5 className='text-center mt-3'>{ele.card_title}</h5>
+                            <p className='text-center'>{ele.card_body}</p>
+                        </div>
+                    </a></div>
             })}
         </div>
     )

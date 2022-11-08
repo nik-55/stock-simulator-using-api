@@ -71,6 +71,7 @@ const StockAnalysis = ({ stock }) => {
                     for (let i = j; i < j + 20; i++) sum += parseFloat((arr[i].open))
                     sma1.push((sum / 20))
                 }
+                sma1.push(arr[arr.length - 1].open)
                 setSma(sma1)
 
                 const res2 = await basicAxios.post("/trading/getbookmark/", {
@@ -109,7 +110,7 @@ const StockAnalysis = ({ stock }) => {
                         {change.change >= 0 ? <span className='ms-2 text-success'>{`+ INR ${change.change}K`}</span> :
                             <span className='ms-2 text-danger'>{`- INR ${-change.change}K`}</span>}
                     </div>
-                    {bookmarked ? <button onClick={bookmark} className='btn my-auto btn-dark text-light m-2'>Bookmarked<i className="ms-1 fa-regular fa-bookmark"></i></button> : <button onClick={bookmark} className='btn my-auto btn-outline-dark m-2'>Bookmark<i className="ms-1 fa-regular fa-bookmark"></i></button>}
+                    {bookmarked ? <button onClick={bookmark} disabled={true} className='btn my-auto btn-dark text-light m-2'>Bookmarked<i className="ms-1 fa-regular fa-bookmark"></i></button> : <button onClick={bookmark} className='btn my-auto btn-outline-dark m-2'>Bookmark<i className="ms-1 fa-regular fa-bookmark"></i></button>}
                 </div>
                 <div className='m-3 stock-graph p-5'>
                     {sma.length !== 0 && <Line data={{
