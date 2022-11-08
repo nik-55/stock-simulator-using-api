@@ -8,7 +8,7 @@ const Aboutus = () => {
                 <img src={about_img} alt="about" className="about-img rounded-circle p-2 ms-5 me-5" />
                 <div className='about-content p-5'>
                     <h5>About us</h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    <p>We are a team of 4 CSE undergraduate students studying in IIT Roorkee. We love to explore various fields in the world of technology, learning new things at each step. We aim to contribute to the society by the implementation of our acquired skills and experience. We are interested in open source contribution and making the existing softwares even better.</p>
                 </div>
             </div>
             <div className='about-footer d-flex flex-column align-items-center'>

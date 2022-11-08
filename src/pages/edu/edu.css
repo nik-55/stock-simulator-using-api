@@ -20,6 +20,10 @@
   transform: scale(1.1);
 }
 
+.row .card-cont .c-card {
+  background-image: linear-gradient(180deg, #000000 0%, #321570 100%);
+}
+
 .about-div {
   height: 85vh;
   width: 100%;
